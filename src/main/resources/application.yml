@@ -10,12 +10,15 @@ spring:
   application:
     name :  forescout-keyvault-service
 
-  cloud:
-    azure:
-      keyvault:
-        secret:
-          property-sources[0]:
-          endpoint: https://cysiz-kv-eastus.vault.azure.net/
+#  cloud:
+#    azure:
+#      keyvault:
+#        secret:
+#          property-sources[0]:
+#          endpoint: https://cysiz-kv-eastus.vault.azure.net/
 
+azure:
+  keyvault:
+    uri: https://cysiz-kv-eastus.vault.azure.net/
 
 
