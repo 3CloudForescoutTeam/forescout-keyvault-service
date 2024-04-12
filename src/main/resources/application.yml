@@ -1,0 +1,21 @@
+# ===================================================================
+# Spring Boot Configuration
+# ===================================================================
+server:
+  port: 8085
+  servlet:
+    context-path: /forescout-keyvault-service
+
+spring:
+  application:
+    name :  forescout-keyvault-service
+
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-sources[0]:
+          endpoint: https://cysiz-kv-eastus.vault.azure.net/
+
+
+
