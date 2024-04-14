@@ -16,11 +16,9 @@ public class AzureCredentialConfiguration {
     @Bean
     public SecretClient getSecretClient() {
 
-        SecretClient secretClient = new SecretClientBuilder()
+        return new SecretClientBuilder()
                 .vaultUrl(keyVaultUri)
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
-
-        return secretClient;
     }
 }
