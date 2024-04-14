@@ -26,11 +26,11 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 
-@Service
+//@Service
 @Slf4j
 public class KeyStoreService {
 
-    @Value("${PKCS12-KEY-STORE-PASSWORD}")
+   // @Value("${PKCS12-KEY-STORE-PASSWORD}")
     private String pkcs12KeyStorePassword;
 
 //    private CryptographyClient cryptoClient;
@@ -76,7 +76,7 @@ public class KeyStoreService {
 //        return cert.getPublicKey();
 //    }
 
-    @PostConstruct
+    //@PostConstruct
     public PublicKey getPublicKey() throws Exception {
 
 

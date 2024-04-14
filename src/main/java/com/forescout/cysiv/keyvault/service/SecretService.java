@@ -7,20 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
+//@Service
+//@RequiredArgsConstructor
 @Slf4j
 public class SecretService {
 
-    private final SecretClient secretClient;
+    //private final SecretClient secretClient;
 
     //@Value("${test-api-key}")
     //private String testApiKey;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
 
-        String testApiKey = secretClient.getSecret("test-api-key").getValue();
-        log.info("found vault secret: {}", testApiKey);
+        //String testApiKey = secretClient.getSecret("test-api-key").getValue();
+        //log.info("found vault secret: {}", testApiKey);
     }
 }
