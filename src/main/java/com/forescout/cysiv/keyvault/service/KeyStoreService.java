@@ -11,6 +11,7 @@ import com.azure.security.keyvault.keys.KeyClientBuilder;
 import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
 import com.azure.security.keyvault.keys.cryptography.CryptographyClientBuilder;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,7 @@ import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
+import java.util.Date;
 
 //@Service
 @Slf4j
@@ -96,8 +98,11 @@ public class KeyStoreService {
 
         //Algorithm algorithm = Algorithm.RSA256(publicKey1, privateKey);  // Use the public key for signing algorithm setup
         String token1 = JWT.create()
-                .withSubject("subject")
-                .withIssuer("https://www.example.com")
+                //.withClaim(claims)
+                .withSubject("username")
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*30))
+                .withIssuer("https://www.forescout.com")
                 .sign(Algorithm.none());  // This should be unsigned initially if using Azure to sign
 
         // Perform signing operation in Azure Key Vault
