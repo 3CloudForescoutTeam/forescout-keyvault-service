@@ -18,7 +18,7 @@ public class AuthenticatedUserDetails implements UserDetails {
     public AuthenticatedUserDetails(UserEntity byUsername) {
 
         this.username = byUsername.getUsername();
-        this.password= byUsername.getPassword();
+        this.password = byUsername.getPassword();
         List<GrantedAuthority> auths = new ArrayList<>();
 
         for(UserRoleEntity role : byUsername.getRoles()){

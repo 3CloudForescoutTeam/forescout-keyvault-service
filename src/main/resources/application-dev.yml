@@ -7,10 +7,7 @@ server:
 azure:
   keyvault:
     uri: https://cysiz-kv-eastus.vault.azure.net/
-
-
-
-
-
-
+    pfxCertificate: CYSIZ-PFX-CERT
+    azureCertificate: CYSIZ-AZURE-CERT
+    keyIdentifier: ${azure.keyvault.uri}/keys/CYSIZ-RSA-KEY
 

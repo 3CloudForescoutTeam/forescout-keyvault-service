@@ -24,7 +24,7 @@ public class AuthenticationController {
     private final JwtService jwtService;
 
     @PostMapping("/api/v1/login")
-    public ResponseEntity<JwtTokenDTO> AuthenticateAndGetToken(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<JwtTokenDTO> login(@RequestBody LoginDTO loginDTO) {
 
         log.info("Authenticating User {}...", loginDTO.getUsername());
         Authentication authentication = authenticationManager
@@ -34,7 +34,7 @@ public class AuthenticationController {
             throw new UsernameNotFoundException("Invalid Credentials. Username Not Found");
 
         JwtTokenDTO response =  JwtTokenDTO.builder()
-                .accessToken(jwtService.GenerateToken(loginDTO.getUsername()))
+                .accessToken(jwtService.generateToken(loginDTO.getUsername()))
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

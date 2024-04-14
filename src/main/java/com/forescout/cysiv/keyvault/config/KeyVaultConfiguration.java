@@ -8,43 +8,36 @@ import com.azure.security.keyvault.keys.cryptography.CryptographyClientBuilder;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
 import com.azure.security.keyvault.secrets.SecretClient;
 import com.azure.security.keyvault.secrets.SecretClientBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 @Configuration
-public class AzureCredentialConfiguration {
-
-    @Value("${azure.keyvault.uri}")
-    private String keyVaultUri;
-
-    @Value("${FORESCOUT-PFX-TEST-CERT}")
-    private String certificateName;
+public class KeyVaultConfiguration {
 
     @Bean
-    public SecretClient getSecretClient() {
+    public SecretClient getSecretClient(KeyVaultProperties keyVaultProperties) {
 
         return new SecretClientBuilder()
-            .vaultUrl(keyVaultUri)
+            .vaultUrl(keyVaultProperties.getUri())
             .credential(new DefaultAzureCredentialBuilder().build())
             .buildClient();
     }
 
     @Bean
-    public KeyVaultKey getKeyVaultKey() {
+    public KeyVaultKey getKeyVaultKey(KeyVaultProperties keyVaultProperties) {
 
         KeyClient keyClient = new KeyClientBuilder()
-            .vaultUrl(keyVaultUri)
+            .vaultUrl(keyVaultProperties.getUri())
             .credential(new DefaultAzureCredentialBuilder().build())
             .buildClient();
 
-        return keyClient.getKey(certificateName);
+        return keyClient.getKey(keyVaultProperties.getPfxCertificate());
     }
 
     @Bean
-    public CryptographyClient getCryptographyClient(KeyVaultKey keyVaultKey) {
+    @Qualifier("certificateCryptographyClient")
+    public CryptographyClient getCertificateCryptographyClient(KeyVaultKey keyVaultKey) {
 
         return new CryptographyClientBuilder()
             .keyIdentifier(keyVaultKey.getId())
@@ -53,12 +46,12 @@ public class AzureCredentialConfiguration {
     }
 
     @Bean
-    public RSAPublicKey getRSAPublicKey(KeyVaultKey keyVaultKey) {
-        return (RSAPublicKey) keyVaultKey.getKey().toRsa().getPublic();
-    }
+    @Qualifier("privateKeyCryptographyClient")
+    public CryptographyClient getPrivateKeyCryptographyClient(KeyVaultProperties keyVaultProperties) {
 
-    @Bean
-    public RSAPrivateKey getRSAPrivateKey(KeyVaultKey keyVaultKey) {
-        return (RSAPrivateKey) keyVaultKey.getKey().toRsa().getPrivate();
+        return new CryptographyClientBuilder()
+                .keyIdentifier(keyVaultProperties.getKeyIdentifier())
+                .credential(new DefaultAzureCredentialBuilder().build())
+                .buildClient();
     }
 }

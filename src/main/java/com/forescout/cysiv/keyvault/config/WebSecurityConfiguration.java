@@ -1,8 +1,7 @@
 package com.forescout.cysiv.keyvault.config;
 
-import com.forescout.cysiv.keyvault.filter.JwtRequestFilter;
+import com.forescout.cysiv.keyvault.filter.AuthenticationRequestFilter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,10 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-@Slf4j
 public class WebSecurityConfiguration {
 
-    private final JwtRequestFilter jwtAuthFilter;
+    private final AuthenticationRequestFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
     @Bean
