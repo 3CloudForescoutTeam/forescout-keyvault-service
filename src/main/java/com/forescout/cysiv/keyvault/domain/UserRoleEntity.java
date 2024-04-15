@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ROLES")
+@Table(name = "roles")
 public class UserRoleEntity {
 
     @Id

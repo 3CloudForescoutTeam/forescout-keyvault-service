@@ -10,9 +10,9 @@ spring:
     name :  forescout-keyvault-service
 
   datasource:
-    url: "${PG-DB-URL}"
-    username: "${PG-DB-USER}"
-    password: "${PG-DB-PSWD}"
+    url: "${CYSIZ-PG-DB-URL}"
+    username: "${CYSIZ-PG-DB-USER}"
+    password: "${CYSIZ-PG-DB-PSWD}"
     driver-class-name: org.postgresql.Driver
 
     jpa:
@@ -22,6 +22,7 @@ spring:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect
           format_sql: true
+          default_schema: keyvault
 
   cloud:
     azure:
