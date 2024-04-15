@@ -13,4 +13,5 @@ public class KeyVaultProperties {
     private String pfxCertificate;
     private String azureCertificate;
     private String keyIdentifier;
+    private String jwtSecretSignKey;
 }

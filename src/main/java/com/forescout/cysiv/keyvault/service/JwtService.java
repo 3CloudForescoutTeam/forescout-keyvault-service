@@ -3,6 +3,7 @@ package com.forescout.cysiv.keyvault.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 //import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
+import com.forescout.cysiv.keyvault.config.KeyVaultProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,12 +25,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class JwtService {
 
-    @Value("${JWT-TOKEN-SIGN-KEY}")
-    private String jwtSecretKey;
+    private final KeyVaultProperties keyVaultProperties;
 
     //@Qualifier("privateKeyCryptographyClient")
    // private final CryptographyClient certificateCryptographyClient;
@@ -116,7 +116,7 @@ public class JwtService {
 //    }
 
     private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(keyVaultProperties.getJwtSecretSignKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
