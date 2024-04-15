@@ -30,3 +30,10 @@ spring:
         secret:
           property-sources[0]:
             endpoint: ${azure.keyvault.uri}
+
+azure:
+  keyvault:
+    pfxCertificate: CYSIZ-PFX-CERT
+    azureCertificate: CYSIZ-AZURE-CERT
+    keyIdentifier: ${azure.keyvault.uri}/keys/CYSIZ-RSA-KEY
+    jwtSecretSignKey: ${JWT-TOKEN-SIGN-KEY}
