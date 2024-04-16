@@ -11,20 +11,21 @@ import com.azure.security.keyvault.secrets.SecretClientBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class KeyVaultConfiguration {
 
-    @Bean
+    //@Bean
     public SecretClient getSecretClient(KeyVaultProperties keyVaultProperties) {
 
         return new SecretClientBuilder()
-            .vaultUrl(keyVaultProperties.getUri())
-            .credential(new DefaultAzureCredentialBuilder().build())
-            .buildClient();
+                .vaultUrl(keyVaultProperties.getUri())
+                .credential(new DefaultAzureCredentialBuilder().build())
+                .buildClient();
     }
 
-    @Bean
+   //@Bean
     public KeyVaultKey getKeyVaultKey(KeyVaultProperties keyVaultProperties) {
 
         KeyClient keyClient = new KeyClientBuilder()
@@ -35,8 +36,9 @@ public class KeyVaultConfiguration {
         return keyClient.getKey(keyVaultProperties.getPfxCertificate());
     }
 
-    @Bean
-    @Qualifier("certificateCryptographyClient")
+    //@Bean
+    //@Primary
+    //@Qualifier("certificateCryptographyClient")
     public CryptographyClient getCertificateCryptographyClient(KeyVaultKey keyVaultKey) {
 
         return new CryptographyClientBuilder()
@@ -45,8 +47,8 @@ public class KeyVaultConfiguration {
             .buildClient();
     }
 
-    @Bean
-    @Qualifier("privateKeyCryptographyClient")
+    //@Bean
+    //@Qualifier("privateKeyCryptographyClient")
     public CryptographyClient getPrivateKeyCryptographyClient(KeyVaultProperties keyVaultProperties) {
 
         return new CryptographyClientBuilder()

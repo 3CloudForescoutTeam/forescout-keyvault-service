@@ -24,12 +24,16 @@ spring:
           format_sql: true
           default_schema: keyvault
 
-#  cloud:
-#    azure:
-#      keyvault:
-#        secret:
-#          property-sources[0]:
-#            endpoint: ${azure.keyvault.uri}
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-sources[0]:
+            endpoint: ${azure.keyvault.uri}
+            credential:
+              username: daniel.acquah@3cloudsolutions.com
+              password: 2Likethat#7930
+          property-source-enabled: true
 
 azure:
   keyvault:
