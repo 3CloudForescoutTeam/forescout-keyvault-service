@@ -38,10 +38,10 @@ Here are Use Cases for Azure Key Vault, based on the Requirements Analysis of th
   
 ## Running Application
 
-1. Clone the repository [forescout-keyvault-service](https://github.com/3CloudForescoutTeam/forescout-keyvault-service)
+1. Clone the repository [forescout-keyvault-service](https://github.com/3CloudForescoutTeam/forescout-keyvault-service/tree/develop)
 2. Switch to the develop branch
 3. Build project using Maven
-4. Set the following environment variables: AZURE_KEYVAULT_URI=https://cysiz-kv-eastus.vault.azure.net/;AZURE_TENANT_ID=ed9aa516-5358-4016-a8b2-b6ccb99142d0
+4. Set the following environment variables: "AZURE_KEYVAULT_URI=https://cysiz-kv-eastus.vault.azure.net/;AZURE_TENANT_ID=ed9aa516-5358-4016-a8b2-b6ccb99142d0"
 5. Start Application (use local profile if testing locally on laptop)
 
 ## Testing
@@ -49,7 +49,7 @@ Here are Use Cases for Azure Key Vault, based on the Requirements Analysis of th
 The Cosmosdb for Postgres database has been pre-populated with test data (forescout | password123).
 We will use PostMan to test the Login API. This API will showcase how to generate tokens using the 3 approaches in uses case above.
 
-1. Create an HTTP POST Request to <hostname>/forescout-keyvault-service/api/v1/login. To test locally use: http://localhost:8085/forescout-keyvault-service/api/v1/login
+1. Create an HTTP POST Request to <hostname>/forescout-keyvault-service/api/v1/login. To test locally use: "http://localhost:8085/forescout-keyvault-service/api/v1/login"
 2. Use the payload below to authenticate the test use using the login API:  {
    "username": "forescout",
    "password": "password123"
