@@ -1,8 +1,6 @@
 package com.forescout.cysiv.keyvault.config;
 
 import com.azure.identity.DefaultAzureCredentialBuilder;
-import com.azure.security.keyvault.certificates.CertificateClient;
-import com.azure.security.keyvault.certificates.CertificateClientBuilder;
 import com.azure.security.keyvault.keys.KeyClient;
 import com.azure.security.keyvault.keys.KeyClientBuilder;
 import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
@@ -36,15 +34,6 @@ public class KeyVaultConfiguration {
                         .build())
                 .buildClient();
     }
-
-//    @Bean
-//    public CertificateClient certificateClient(KeyVaultProperties keyVaultProperties) {
-//        return new CertificateClientBuilder()
-//                .vaultUrl(keyVaultProperties.getUri())
-//                .credential(new DefaultAzureCredentialBuilder()
-//                        .build())
-//                .buildClient();
-//    }
 
     @Bean
     public KeyVaultKey getKeyVaultKey(KeyVaultProperties keyVaultProperties) {

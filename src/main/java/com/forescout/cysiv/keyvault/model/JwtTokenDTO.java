@@ -10,5 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class JwtTokenDTO {
-    private String accessToken;
+
+    private String secretSignedToken;
+    private String privateKeySignedToken;
+    private String certificateSignedToken;
 }

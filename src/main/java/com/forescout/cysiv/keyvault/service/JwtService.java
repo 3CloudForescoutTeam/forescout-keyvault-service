@@ -68,12 +68,22 @@ public class JwtService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public String generateToken(String username){
+    public String generateSecretSignToken(String username){
+        Map<String, Object> claims = new HashMap<>();
+        return createSecretSignToken(claims, username);
+    }
+
+    public String generateCertificateSignToken(String username){
+        Map<String, Object> claims = new HashMap<>();
+        return createCertificateSignToken(claims, username);
+    }
+
+    public String generatePrivateKeySignToken(String username){
         Map<String, Object> claims = new HashMap<>();
         return createPrivateKeySignToken(claims, username);
     }
 
-    private String createSignKeyToken(Map<String, Object> claims, String username) {
+    private String createSecretSignToken(Map<String, Object> claims, String username) {
 
         return Jwts.builder()
             .setClaims(claims)

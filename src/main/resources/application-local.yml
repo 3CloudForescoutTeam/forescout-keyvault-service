@@ -4,7 +4,3 @@
 server:
   port: 8085
 
-azure:
-  keyvault:
-    uri: https://cysiz-kv-eastus.vault.azure.net
-

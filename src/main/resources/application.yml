@@ -1,13 +1,9 @@
 # ===================================================================
 # Spring Boot Configuration
 # ===================================================================
+
+# Application Context Path & Name
 server:
-  logging:
-    level:
-      com.forescout.cysiv: DEBUG
-      com.azure.security.keyvault: info
-      com.azure.identity: info
-      org.springframework.boot: DEBUG
   servlet:
     context-path: /forescout-keyvault-service
 
@@ -17,6 +13,7 @@ spring:
   application:
     name :  forescout-keyvault-service
 
+# CosmosDB for Postgres Datasource Configuration(s) - Azure KeyVault Secret(s)
   datasource:
     url: ${CYSIZ-PG-DB-URL}
     username: ${CYSIZ-PG-DB-USER}
@@ -32,6 +29,7 @@ spring:
           format_sql: true
           default_schema: keyvault
 
+# Azure KeyVault Configuration
   cloud:
     azure:
       keyvault:
@@ -41,20 +39,20 @@ spring:
           property-source-enabled: true
           property-sources:
             - endpoint: ${AZURE_KEYVAULT_URI}
-# Use keys if you want to restrict values that are coming from keyvault to specific properties
-#          keys:
-#            - CYSIZ-PG-DB-URL
-#            - CYSIZ-PG-DB-USER
-#            - CYSIZ-PG-DB-PSWD
-#            - JWT-TOKEN-SIGN-KEY
-#            - CYSIZ-PG-DB-URL
-#            - CYSIZ-PFX-CERT
-#            - CYSIZ-AZURE-CERT
 
-
+# Azure Certificate, Private Key and Sign Key Secrets
 azure:
   keyvault:
-    pfxCertificate: CYSIZ-PFX-CERT
-    azureCertificate: CYSIZ-AZURE-CERT
-    keyIdentifier: ${AZURE_KEYVAULT_URI}keys/CYSIZ-RSA-KEY
+    uri: ${AZURE_KEYVAULT_URI}
+    pfxCertificate: ${CYSIZ-PFX-CERT-NAME}
+    azureCertificate: ${CYSIZ-AZURE-CERT-NAME}
+    keyIdentifier: ${CYSIZ-RSA-KEY-ID}
     jwtSecretSignKey: ${JWT-TOKEN-SIGN-KEY}
+
+# Logging
+logging:
+  level:
+    com.forescout.cysiv: DEBUG
+    com.azure.security.keyvault: info
+    com.azure.identity: info
+    org.springframework.boot: DEBUG

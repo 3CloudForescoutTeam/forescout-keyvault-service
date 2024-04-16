@@ -27,7 +27,9 @@ public class AuthenticationService {
             throw new UsernameNotFoundException("Invalid Credentials. Username Not Found");
 
         return JwtTokenDTO.builder()
-                .accessToken(jwtService.generateToken(loginDTO.getUsername()))
+                .secretSignedToken(jwtService.generateSecretSignToken(loginDTO.getUsername()))
+                .privateKeySignedToken(jwtService.generatePrivateKeySignToken(loginDTO.getUsername()))
+                .certificateSignedToken(jwtService.generateCertificateSignToken(loginDTO.getUsername()))
                 .build();
     }
 }
