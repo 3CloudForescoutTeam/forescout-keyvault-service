@@ -2,7 +2,7 @@ package com.forescout.cysiv.keyvault.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-//import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
+import com.azure.security.keyvault.keys.cryptography.CryptographyClient;
 import com.forescout.cysiv.keyvault.config.KeyVaultProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +12,6 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +30,11 @@ public class JwtService {
 
     private final KeyVaultProperties keyVaultProperties;
 
-    //@Qualifier("privateKeyCryptographyClient")
-   // private final CryptographyClient certificateCryptographyClient;
+    @Qualifier("certificateCryptographyClient")
+    private final CryptographyClient certificateCryptographyClient;
 
-   // @Qualifier("certificateCryptographyClient")
-    //private final CryptographyClient privateKeyCryptographyClient;
+    @Qualifier("privateKeyCryptographyClient")
+    private final CryptographyClient privateKeyCryptographyClient;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -71,7 +70,7 @@ public class JwtService {
 
     public String generateToken(String username){
         Map<String, Object> claims = new HashMap<>();
-        return createSignKeyToken(claims, username);
+        return createPrivateKeySignToken(claims, username);
     }
 
     private String createSignKeyToken(Map<String, Object> claims, String username) {
@@ -84,36 +83,36 @@ public class JwtService {
             .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
-//    private String createCertificateSignToken(Map<String, Object> claims, String username) {
-//
-//        String token = JWT.create()
-//            .withClaim(username, claims)
-//            .withSubject(username)
-//            .withIssuedAt(new Date(System.currentTimeMillis()))
-//            .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*30))
-//            .sign(Algorithm.none());
-//
-//        byte[] signature = certificateCryptographyClient.signData(com.azure.security.keyvault.keys.cryptography.models.SignatureAlgorithm.RS256,
-//                token.getBytes()).getSignature();
-//        return token + "." + Base64.getUrlEncoder().encodeToString(signature);
-//    }
-//
-//    private String createPrivateKeySignToken(Map<String, Object> claims, String username) {
-//
-//        String token = JWT.create()
-//                .withClaim(username, claims)
-//                .withSubject(username)
-//                .withIssuedAt(new Date(System.currentTimeMillis()))
-//                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*30))
-//                .withIssuer("https://www.forescout.com")
-//                .sign(Algorithm.none());
-//
-//        byte[] dataBytes = token.getBytes(StandardCharsets.UTF_8);
-//        byte[] signature = privateKeyCryptographyClient.signData(com.azure.security.keyvault.keys.cryptography.models.SignatureAlgorithm.RS256,
-//                dataBytes).getSignature();
-//
-//        return Base64.getEncoder().encodeToString(signature);
-//    }
+    private String createCertificateSignToken(Map<String, Object> claims, String username) {
+
+        String token = JWT.create()
+            .withClaim(username, claims)
+            .withSubject(username)
+            .withIssuedAt(new Date(System.currentTimeMillis()))
+            .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*30))
+            .sign(Algorithm.none());
+
+        byte[] signature = certificateCryptographyClient.signData(com.azure.security.keyvault.keys.cryptography.models.SignatureAlgorithm.RS256,
+                token.getBytes()).getSignature();
+        return token + "." + Base64.getUrlEncoder().encodeToString(signature);
+    }
+
+    private String createPrivateKeySignToken(Map<String, Object> claims, String username) {
+
+        String token = JWT.create()
+                .withClaim(username, claims)
+                .withSubject(username)
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*30))
+                .withIssuer("https://www.forescout.com")
+                .sign(Algorithm.none());
+
+        byte[] dataBytes = token.getBytes(StandardCharsets.UTF_8);
+        byte[] signature = privateKeyCryptographyClient.signData(com.azure.security.keyvault.keys.cryptography.models.SignatureAlgorithm.RS256,
+                dataBytes).getSignature();
+
+        return Base64.getEncoder().encodeToString(signature);
+    }
 
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(keyVaultProperties.getJwtSecretSignKey());

@@ -85,23 +85,13 @@
             <groupId>com.azure.spring</groupId>
             <artifactId>spring-cloud-azure-starter-keyvault</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-security-keyvault-certificates</artifactId>
-            <version>${azure-certificates.version}</version>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.azure</groupId>-->
-<!--            <artifactId>azure-identity</artifactId>-->
-<!--            <version>${azure-identity.version}</version>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-security-keyvault-keys</artifactId>
-            <version>${azure-security-keys.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-security-keyvault-certificates</artifactId>
         </dependency>
 
         <!-- Postgres JPA -->
@@ -113,7 +103,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${org-postgresql.version}</version>
         </dependency>
 
         <!-- JWT -->

@@ -2,17 +2,25 @@
 # Spring Boot Configuration
 # ===================================================================
 server:
+  logging:
+    level:
+      com.forescout.cysiv: DEBUG
+      com.azure.security.keyvault: info
+      com.azure.identity: info
+      org.springframework.boot: DEBUG
   servlet:
     context-path: /forescout-keyvault-service
 
 spring:
+  main:
+    allow-bean-definition-overriding: false
   application:
     name :  forescout-keyvault-service
 
   datasource:
-    url: "${CYSIZ-PG-DB-URL}"
-    username: "${CYSIZ-PG-DB-USER}"
-    password: "${CYSIZ-PG-DB-PSWD}"
+    url: ${CYSIZ-PG-DB-URL}
+    username: ${CYSIZ-PG-DB-USER}
+    password: ${CYSIZ-PG-DB-PSWD}
     driver-class-name: org.postgresql.Driver
 
     jpa:
@@ -27,13 +35,26 @@ spring:
   cloud:
     azure:
       keyvault:
+        uri: ${AZURE_KEYVAULT_URI}
+        enabled: true
         secret:
-          property-sources[0]:
-            endpoint: ${azure.keyvault.uri}
+          property-source-enabled: true
+          property-sources:
+            - endpoint: ${AZURE_KEYVAULT_URI}
+# Use keys if you want to restrict values that are coming from keyvault to specific properties
+#          keys:
+#            - CYSIZ-PG-DB-URL
+#            - CYSIZ-PG-DB-USER
+#            - CYSIZ-PG-DB-PSWD
+#            - JWT-TOKEN-SIGN-KEY
+#            - CYSIZ-PG-DB-URL
+#            - CYSIZ-PFX-CERT
+#            - CYSIZ-AZURE-CERT
+
 
 azure:
   keyvault:
     pfxCertificate: CYSIZ-PFX-CERT
     azureCertificate: CYSIZ-AZURE-CERT
-    keyIdentifier: ${azure.keyvault.uri}/keys/CYSIZ-RSA-KEY
+    keyIdentifier: ${AZURE_KEYVAULT_URI}keys/CYSIZ-RSA-KEY
     jwtSecretSignKey: ${JWT-TOKEN-SIGN-KEY}
